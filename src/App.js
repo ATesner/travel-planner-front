@@ -1,28 +1,26 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import PrivateRoute from './components/PrivateRoute';
+import Home from './pages/Home';
+import Login from './pages/Login';
+import Trips from './pages/Trips';
+import Visas from './pages/Visas';
+import TripDetail from './pages/TripDetail';
 
-class App extends Component {
-  render() {
+class App extends React.Component {
+
+  render(){
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
+        <Router>
+          <div>
+            <Route path="/" exact component={Home} />
+            <PrivateRoute path="/trips" component={Trips} />
+            <PrivateRoute path="/trip/:id?" component={TripDetail} />
+            <Route path="/visas" component={Visas} />
+            <Route path="/login" component={Login} />
+          </div>
+        </Router>
     );
-  }
+  }    
 }
-
 export default App;
