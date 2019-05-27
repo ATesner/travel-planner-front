@@ -41,7 +41,7 @@ class Trips extends Component {
             escale: "non",
             trips: [],
             card: {
-                nom : "", visa: ""
+                stay : "", name: ""
             }
         }
     }
@@ -70,25 +70,14 @@ class Trips extends Component {
 
     getVisa = (pays) => {
         // console.log('getVisa', pays)
-        // HttpHelper.get('/visa?name=' + pays).then(res => {
-        //     console.log('GET VISA RESULT', res)
-        //     this.setState({ card: res.visa[0], paysSelected: pays }, () => {
-        //         // console.log('card after', this.state.card)
-        //     })
-        // });
-        fetch('http://localhost:3008/api/visa?name=' + pays, {
-            method: 'GET',
-            headers:{
-                'Content-Type': 'application/json',
-                'Authorization': sessionStorage.getItem('token')
+        HttpHelper.get('/visa?name=' + pays).then(res => {
+            console.log('GET VISA RESULT', res)
+            if(res.visa && res.visa.length > 0) {
+                this.setState({ card: res.visa[0], paysSelected: pays });
+            }else{
+                this.setState({ card: { stay: 'Pas de visa', name: pays }, paysSelected: pays });
             }
-        }).then( res => {
-            return res.json()
-        }).then(data =>{
-            console.log('Visa found', data, this.state.card)
-            this.setState({ card: data.visa[0], paysSelected: pays }, () => {
-                console.log('card after', this.state.card)
-            })
+                
         });
     }   
 
